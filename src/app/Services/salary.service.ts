@@ -5,8 +5,8 @@ import { catchError, throwError } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
-export class CategoryService {
-  httpClient = inject(HttpClient);
+export class SalaryService {
+  private httpClient = inject(HttpClient)
 
   private fetch(url:string, errorMessage:string) {
     return this.httpClient.get(url)
@@ -28,27 +28,26 @@ export class CategoryService {
     )
   }
 
-  addNewCategory(formData:Object) {
-    return this.post(
-      "http://localhost:3000/categories/new",
-      formData,
-      "Error while adding new user"
-    )
-  }
-
-  deleteCategory(formData:Object) {
-    return this.post(
-      "http://localhost:3000/categories/delete",
-      formData,
-      "Error while adding new user"
-    )
-  }
-
-  getCategories() {
+  getSalaryByMonth(month:string) {
     return this.fetch(
-      "http://localhost:3000/categories",
-      "Error fetching categories"
+      "http://localhost:3000/salary/get/" + month,
+      "Error fetching salary"
     )
   }
-  
+
+  addSalary(formData:Object) {
+    return this.post(
+      "http://localhost:3000/salary/new",
+      formData,
+      "Error while adding new user"
+    )
+  }
+
+  editSalary(formData:Object) {
+    return this.post(
+      "http://localhost:3000/salary/edit",
+      formData,
+      "Error while adding new user"
+    )
+  }
 }

@@ -2,10 +2,10 @@
   <div class="panel">
     <div id="title-container">
       <h2>Új adat rögzítése</h2>
-      <p>{{ this.month }}</p>
+      <p>{{ formatMonth(this.month) }}</p>
     </div>
     <div id="formContainer">
-      <form [formGroup]="addExpenseForm" (ngSubmit)="onSubmit()">
+      <form [formGroup]="addExpenseForm" (ngSubmit)="onAddExpense()">
         <label for="category">Kategória</label>
         <select name="category" id="category" formControlName="category">
           @for (category of categories; track $index) {
@@ -13,14 +13,14 @@
           }
         </select>
         <label for="amount">Összeg</label>
-        <input type="text" id="amount" name="amount" formControlName="amount">
+        <input type="number" id="amount" name="amount" formControlName="amount">
         <label for="description">Mire?</label>
         <input type="text" id="description" name="description" formControlName="description">
       </form>
     </div>
     <div>
       <button (click)="hideAddDialog()" id="nvmBtn">Mégse</button>
-      <button (click)="onSubmit()" id="addBtn">Rögzítés</button>
+      <button (click)="onAddExpense()" id="addBtn">Rögzítés</button>
     </div>
   </div>
 </dialog>
@@ -28,11 +28,11 @@
 <dialog id="editExpenseDialog">
   <div class="panel">
     <div id="title-container">
-      <h2>Új adat rögzítése</h2>
-      <p>Hónap</p>
+      <h2>Adat szerkesztése</h2>
+      <p>{{ formatMonth(this.month) }}</p>
     </div>
     <div id="formContainer">
-      <form [formGroup]="editExpenseForm" >
+      <form [formGroup]="editExpenseForm" (ngSubmit)="editExpense()" >
         <label for="category">Kategória</label>
         <select name="category" id="category" formControlName="category">
           @for (category of categories; track $index) {
@@ -40,7 +40,7 @@
           }
         </select>
         <label for="amount">Összeg</label>
-        <input type="text" id="amount" name="amount" formControlName="amount">
+        <input type="number" id="amount" name="amount" formControlName="amount">
         <label for="description">Mire?</label>
         <input type="text" id="description" name="description" formControlName="description">
       </form>
@@ -55,32 +55,78 @@
   </div>
 </dialog>
 
+<dialog id="editSalaryDialog">
+  <div class="panel">
+    <div id="title-container">
+      <h2>{{ formatMonth(this.month) }}i fizetés:</h2>
+    </div>
+    <div id="formContainer">
+      <form [formGroup]="editSalaryForm" (ngSubmit)="onEditSalary()" >
+        <input type="number" id="amount" name="amount" formControlName="amount">
+      </form>
+    </div>
+    <div>
+      <button (click)="hideSalaryDialog()" id="nvmBtn">Mégse</button>
+      
+      @if(this.salary === null) {
+        <button (click)="onAddSalary()" id="addBtn" style="margin-left:10px;">Rögzítés</button>
+      } @else {
+        <button (click)="onEditSalary()" id="editBtn" style="margin-left:10px;">Szerkesztés</button>
+      }
+    </div>
+  </div>
+</dialog>
+
 <div class="container">
   <div class="title">
     <div>
       @if(formatMonth(this.month) !== "undefined") {
-        <h1>{{ formatMonth(this.month) }}</h1>
-        <button (click)="openAddDialog()">Új hozzáadása</button>
+        <div id="navigation-container">
+          <h1>{{ formatMonth(this.month) }}</h1>
+          <button (click)="openAddDialog()">Új hozzáadása</button>
+          @if(this.salary === null) {
+            <button (click)="openSalaryAddDialog()" id="editBtn" style="margin-left:10px;">Fizetés rögzítése</button>
+          } @else {
+            <button (click)="openSalaryEditDialog()" id="editBtn" style="margin-left:10px;">Fizetés szerkesztése</button>
+          }
+        </div>
+        <div id="number-container">
+          @if(this.salary !== null) {
+            @if(this.salary.amount !== null) {
+              <h2 id="moneyspent">- Fizetésed: <span id="price">{{ this.salary.amount | number}} Ft</span></h2>
+            }
+          }
+          @if(this.expenseSum !== null) {
+            @if(this.expenseSum.sum !== null) {
+              <h2 id="moneyspent">- Költéseid: <span id="price">{{ expenseSum.sum | number}} Ft</span></h2>
+            }
+          }
 
-        @if(expenseSum.sum !== null) {
-          <h2 id="moneyspent">Összesen: <span id="price">{{ expenseSum.sum | number}} Ft</span></h2>
-        }
+          @if(this.expenseSum !== null && this.salary !== null) {
+            @if(this.expenseSum.sum !== null) {
+              <h2 id="moneyspent">- Megtakarítások: <span id="price">{{ this.savings | number}} Ft</span></h2>
+            }
+          }
+        </div>
       }
     </div>
   </div>
-      @if(expenses.length !== 0) {
-        <div class="expenses">
-        @for (expense of expenses; track expense.id) {
-          <div class="expense" (click)="openEditDialog(expense.id)" >
-            <h2>{{ expense.description }}</h2>
-            <p id="subtitle">{{ expense.category }} - {{ formatMonth(expense.month) }}</p>
-            <p id="amount">{{ expense.amount | number }} Ft</p>
+      @if(this.expenses !== null) {
+        @if(this.expenses.length > 0) {
+          <div class="expenses">
+          @for (expense of expenses; track expense.id) {
+            <div class="expense" (click)="openEditDialog(expense.id)" >
+              <h2>{{ expense.description }}</h2>
+              <p id="subtitle">{{ expense.category }} - {{ formatMonth(expense.month) }}</p>
+              <p id="amount">{{ expense.amount | number }} Ft</p>
+            </div>
+          }
           </div>
         }
-        </div>
-      } @else {
-        @if (formatMonth(this.month) !== "undefined") {
-          <p id="warning">Még nem adtál hozzá költéseket {{ formatMonth(this.month) }} hónaphoz!</p>
-        }
+        @else {
+          @if (formatMonth(this.month) !== "undefined") {
+            <p id="warning">Még nem adtál hozzá költéseket {{ formatMonth(this.month) }} hónaphoz!</p>
+          }
+        } 
       }
 </div>

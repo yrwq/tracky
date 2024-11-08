@@ -6,7 +6,23 @@
 
     .title {
         display: flex;
+
+        #navigation-container {
+            margin-bottom: 20px;
+        }
         
+        #number-container {
+            #moneyspent {
+                color: #a1a1a1;
+                font-size: 21px;
+    
+                #price {
+                    color: #fff;
+                    font-size: 25px;
+                }
+            }
+        }
+
         button {
             padding: 10px;
             outline: none;
@@ -19,17 +35,6 @@
             cursor: pointer;
     
             transition: .3s
-        }
-
-        #moneyspent {
-            margin-top: 25px;
-            color: #a1a1a1;
-            font-size: 23px;
-
-            #price {
-                color: #fff;
-                font-size: 25px;
-            }
         }
     
         button:hover {
@@ -53,7 +58,7 @@
 
     .expenses {
         margin-right: 20px;
-        padding: 50px;
+        margin-top: 20px;
 
         display: grid;
         grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
@@ -141,7 +146,7 @@ dialog {
             color: white;
         }
         
-        input[type='text']{
+        input[type='text'], input[type='number']{
             background-color: #180161;
             border: 1px solid #4F1787;
             border-radius: 5px;
@@ -152,7 +157,7 @@ dialog {
             width: 100%;
         }
 
-        input[type='text']:focus {
+        input[type='text']:focus, input[type='number']:focus {
             border: 1px solid #EB3678;
         }
 

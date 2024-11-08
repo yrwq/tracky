@@ -5,6 +5,7 @@ import { DecimalPipe } from '@angular/common';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CategoryService } from '../../Services/category.service';
+import { SalaryService } from '../../Services/salary.service';
 
 
 @Component({
@@ -51,6 +52,7 @@ export class DashboardComponent implements OnInit {
   
   expensesService = inject(ExpensesService);
   categoryService = inject(CategoryService);
+  salaryService = inject(SalaryService);
 
   destroyRef = inject(DestroyRef);
   router = inject(Router)
@@ -60,6 +62,8 @@ export class DashboardComponent implements OnInit {
   categories:any = null;
   expenses:any = null;
   expenseSum:any = null;
+  salary:any = 0;
+  savings:any = 0;
   
   loadExpenses() {
     const subscription = this.expensesService.getExpensesByMonth(this.month).subscribe({
@@ -71,9 +75,15 @@ export class DashboardComponent implements OnInit {
     const calculateSum = this.expensesService.getMonthlySum(this.month).subscribe({
       next: (res) => {
         this.expenseSum = res
+        
+        if(this.expenseSum !== null && this.expenses !== null && this.salary !== null) {
+          this.calculateSavings()
+        }
       }
     })
 
+    
+    
     this.destroyRef.onDestroy(() => {
       subscription.unsubscribe()
       calculateSum.unsubscribe()
@@ -93,6 +103,7 @@ export class DashboardComponent implements OnInit {
 
     this.activatedRoute.paramMap.subscribe(params => {
       this.month=params.get("month") || '';
+      this.getSalary(this.month)
       this.loadExpenses()
     })
   }
@@ -118,7 +129,7 @@ export class DashboardComponent implements OnInit {
     description: new FormControl('')
   })
 
-  onSubmit() {
+  onAddExpense() {
     console.log(this.addExpenseForm.value.category)
     const subscription = this.expensesService.addNewExpense(
       {
@@ -168,6 +179,11 @@ export class DashboardComponent implements OnInit {
     dialog.style.visibility = "unset"
   }
 
+  hideEditDialog() {
+    const dialog = document.getElementById("editExpenseDialog") as HTMLElement
+    
+    dialog.style.visibility = "hidden"
+  }
 
   editExpense() {
     const subscription = this.expensesService.editExpense({
@@ -197,9 +213,91 @@ export class DashboardComponent implements OnInit {
     })
   }
 
-  hideEditDialog() {
-    const dialog = document.getElementById("editExpenseDialog") as HTMLElement
+  // SALARY FORM
+  openSalaryAddDialog() {
+    const dialog = document.getElementById("editSalaryDialog") as HTMLElement
+    
+    dialog.style.visibility = "unset"
+  }
+
+  hideSalaryDialog() {
+    const dialog = document.getElementById("editSalaryDialog") as HTMLElement
     
     dialog.style.visibility = "hidden"
+  }
+
+  editSalaryForm = new FormGroup ({
+    amount: new FormControl(0),
+    month: new FormControl("")
+  })
+
+  getSalary(month:string) {
+    const subscription = this.salaryService.getSalaryByMonth(month).subscribe({
+      next: (res) => {
+        this.salary=res
+      }
+    })
+
+    this.destroyRef.onDestroy(() => subscription.unsubscribe() )
+  }
+
+  onAddSalary() {
+    const subscription = this.salaryService.addSalary(
+      {
+        amount: this.editSalaryForm.value.amount,
+        month: this.month,
+      }
+    ).subscribe({
+      next: (res) => {
+        this.editSalaryForm.reset()
+        this.getSalary(this.month)
+        this.loadExpenses()
+        this.hideSalaryDialog()
+      }
+    })
+  }
+
+  openSalaryEditDialog() {
+    const dialog = document.getElementById("editSalaryDialog") as HTMLElement
+    let currentSalary:any;
+
+    const subscription = this.salaryService.getSalaryByMonth(this.month).subscribe({
+      next: (res) => {
+        currentSalary=res
+
+        this.editSalaryForm.patchValue({
+          amount: currentSalary.amount,
+          month: this.month,
+        })
+      }
+    })
+    
+    this.destroyRef.onDestroy(() => subscription.unsubscribe() )
+    dialog.style.visibility = "unset"
+  }
+  
+  onEditSalary() {
+    const subscription = this.salaryService.editSalary({
+      amount: this.editSalaryForm.value.amount,
+      month: this.month
+    }).subscribe({
+      next: (res) => {
+        this.editSalaryForm.reset()
+        this.loadExpenses()
+        this.hideEditDialog()
+      }
+    })
+    
+    this.destroyRef.onDestroy(() => subscription.unsubscribe() )
+  }
+
+  // MEGTAKARÍTÁS KALKULÁCIÓ
+
+  calculateSavings() {
+    if(parseInt(this.salary.amount) && parseInt(this.expenseSum.sum)) {
+      this.savings = parseInt(this.salary.amount)-parseInt(this.expenseSum.sum)
+    } else {
+      return
+    }
   }
 }
