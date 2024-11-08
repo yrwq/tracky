@@ -5,8 +5,8 @@
       </div>
       <div id="formContainer">
         <form [formGroup]="addCategoryForm" (ngSubmit)="onSubmitAdd()">
-          <label for="category">Kategória neve</label>
-          <input type="text" id="category" name="category" formControlName="category">
+          <label for="category">Kategória neve <span class="required">*</span></label>
+          <input type="text" id="category" name="category" formControlName="category" [class.invalid]="this.addCategoryForm.controls.category.invalid && this.addCategoryForm.controls.category.touched">
         </form>
       </div>
       <div>
@@ -23,7 +23,7 @@
       </div>
       <div id="formContainer">
         <form [formGroup]="deleteCategoryForm" (ngSubmit)="onSubmitDelete()">
-            <label for="category">Kategória</label>
+            <label for="category">Kategória <span class="required">*</span></label>
             <select name="category" id="category" formControlName="category">
                 @for (category of categories; track category.id) {
                     <option [value]="category.category_name">{{ category.category_name }}</option>

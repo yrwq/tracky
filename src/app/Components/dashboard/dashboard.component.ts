@@ -1,4 +1,4 @@
-import { Component, DestroyRef, inject, OnInit } from '@angular/core';
+import { Component, DestroyRef, inject, OnInit, TemplateRef } from '@angular/core';
 import { ModalModule } from '@coreui/angular';
 import { ExpensesService } from '../../Services/expenses.service';
 import { DecimalPipe } from '@angular/common';
@@ -6,7 +6,6 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CategoryService } from '../../Services/category.service';
 import { SalaryService } from '../../Services/salary.service';
-
 
 @Component({
   selector: 'app-dashboard',
@@ -48,15 +47,15 @@ export class DashboardComponent implements OnInit {
   toLower(month: string) {
     return(this.removeEkezet(month.toLocaleLowerCase()))
   }
+
   // API
   
-  expensesService = inject(ExpensesService);
-  categoryService = inject(CategoryService);
-  salaryService = inject(SalaryService);
+  private expensesService = inject(ExpensesService);
+  private categoryService = inject(CategoryService);
+  private salaryService = inject(SalaryService);
 
-  destroyRef = inject(DestroyRef);
-  router = inject(Router)
-  activatedRoute = inject(ActivatedRoute);
+  private destroyRef = inject(DestroyRef);
+  private activatedRoute = inject(ActivatedRoute);
   
   month:string = "";
   categories:any = null;
@@ -65,6 +64,8 @@ export class DashboardComponent implements OnInit {
   salary:any = 0;
   savings:any = 0;
   
+  submitErr=false
+
   loadExpenses() {
     const subscription = this.expensesService.getExpensesByMonth(this.month).subscribe({
       next: (res) => {
@@ -120,17 +121,22 @@ export class DashboardComponent implements OnInit {
     const dialog = document.getElementById("addExpenseDialog") as HTMLElement
     
     dialog.style.visibility = "hidden"
+    this.submitErr = false;
   }
 
 
   addExpenseForm = new FormGroup ({
-    category: new FormControl(''),
-    amount: new FormControl(''),
-    description: new FormControl('')
+    category: new FormControl('', { validators: [ Validators.required ] } ),
+    amount: new FormControl('', { validators: [ Validators.required, Validators.min(0) ] } ),
+    description: new FormControl('', { validators: [ Validators.required ] })
   })
 
   onAddExpense() {
-    console.log(this.addExpenseForm.value.category)
+    if(this.addExpenseForm.invalid) {
+      this.submitErr = true;
+      return
+    }
+
     const subscription = this.expensesService.addNewExpense(
       {
         month: this.month,
@@ -143,6 +149,10 @@ export class DashboardComponent implements OnInit {
         this.addExpenseForm.reset()
         this.loadExpenses()
         this.hideAddDialog()
+        this.submitErr = false;
+      },
+      error: (err) => {
+        this.submitErr = true;
       }
     })
     
@@ -153,9 +163,9 @@ export class DashboardComponent implements OnInit {
   
   editExpenseForm = new FormGroup ({
     id: new FormControl(0),
-    category: new FormControl(''),
-    amount: new FormControl(''),
-    description: new FormControl('')
+    category: new FormControl('', { validators: [ Validators.required ] }),
+    amount: new FormControl('', { validators: [ Validators.required, Validators.min(0) ] }),
+    description: new FormControl('', { validators: [ Validators.required ] })
   })
   
   openEditDialog(expenseId:number) {
@@ -165,6 +175,7 @@ export class DashboardComponent implements OnInit {
     const subscription = this.expensesService.getExpenseById(expenseId).subscribe({
       next: (res) => {
         currentExpense=res
+        this.submitErr = false;
 
         this.editExpenseForm.patchValue({
           id: expenseId,
@@ -183,9 +194,15 @@ export class DashboardComponent implements OnInit {
     const dialog = document.getElementById("editExpenseDialog") as HTMLElement
     
     dialog.style.visibility = "hidden"
+    this.submitErr = false;
   }
 
-  editExpense() {
+  onEditExpense() {
+    if(this.editExpenseForm.invalid) {
+      this.submitErr = true;
+      return
+    }
+      
     const subscription = this.expensesService.editExpense({
       id: this.editExpenseForm.value.id,
       category: this.editExpenseForm.value.category,
@@ -196,6 +213,10 @@ export class DashboardComponent implements OnInit {
         this.editExpenseForm.reset()
         this.loadExpenses()
         this.hideEditDialog()
+        this.submitErr = false;
+      },
+      error: (err) => {
+        this.submitErr = true;
       }
     })
     
@@ -224,11 +245,12 @@ export class DashboardComponent implements OnInit {
     const dialog = document.getElementById("editSalaryDialog") as HTMLElement
     
     dialog.style.visibility = "hidden"
+    this.submitErr = false;
   }
 
   editSalaryForm = new FormGroup ({
-    amount: new FormControl(0),
-    month: new FormControl("")
+    amount: new FormControl(0, { validators: [ Validators.required, Validators.min(0) ] }),
+    month: new FormControl("", { validators: [ Validators.required ] })
   })
 
   getSalary(month:string) {
@@ -242,6 +264,11 @@ export class DashboardComponent implements OnInit {
   }
 
   onAddSalary() {
+    if(this.editSalaryForm.invalid) {
+      this.submitErr = true;
+      return
+    }
+
     const subscription = this.salaryService.addSalary(
       {
         amount: this.editSalaryForm.value.amount,
@@ -253,6 +280,10 @@ export class DashboardComponent implements OnInit {
         this.getSalary(this.month)
         this.loadExpenses()
         this.hideSalaryDialog()
+        this.submitErr = false;
+      },
+      error: (err) => {
+        this.submitErr = true;
       }
     })
   }
@@ -269,6 +300,9 @@ export class DashboardComponent implements OnInit {
           amount: currentSalary.amount,
           month: this.month,
         })
+      },
+      error: (err) => {
+        this.submitErr = true;
       }
     })
     
@@ -277,14 +311,24 @@ export class DashboardComponent implements OnInit {
   }
   
   onEditSalary() {
+    if(this.editSalaryForm.invalid) {
+      this.submitErr = true;
+      return
+    }
+
     const subscription = this.salaryService.editSalary({
       amount: this.editSalaryForm.value.amount,
       month: this.month
     }).subscribe({
       next: (res) => {
         this.editSalaryForm.reset()
+        this.getSalary(this.month)
         this.loadExpenses()
-        this.hideEditDialog()
+        this.hideSalaryDialog()
+        this.submitErr = false;
+      },
+      error: (err) => {
+        this.submitErr = true;
       }
     })
     

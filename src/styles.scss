@@ -1,6 +1,5 @@
 /* You can add global styles to this file, and also import other style files */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
-
 * {
     padding: 0;
     margin: 0;
@@ -60,4 +59,53 @@ body {
     background-color: #FB773C;
     color: white;
     padding: 8px;
+}
+
+input[type='text'], input[type='number']{
+    background-color: #180161;
+    border: 1px solid #4F1787;
+    border-radius: 5px;
+    color: white;
+    outline: none;
+    margin-bottom: 15px;
+    padding: 5px;
+    width: 100%;
+}
+
+input[type='text'].invalid, input[type='number'].invalid {
+    border: 1px solid #EB3678;
+}
+
+input[type='text']:focus, input[type='number']:focus {
+    border: 1px solid #FB773C;
+}
+
+
+button {
+    padding: 7px;
+    outline: none;
+    border: 2px solid #EB3678;
+    background-color: rgba(0,0,0,0);
+    color: #EB3678;
+    border-radius: 30px;
+    font-weight: bold;
+    margin-top: 10px;
+    cursor: pointer;
+
+    transition: .3s background-color, .3s padding, .3s color;
+}
+
+button:hover {
+    padding: 8px;
+    color: white;
+    background-color: #EB3678;
+}
+
+.error {
+    color: #EB3678;
+    text-align: center;
+}
+
+.required {
+    color: #EB3678;
 }

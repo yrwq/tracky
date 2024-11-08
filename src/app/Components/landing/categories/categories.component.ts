@@ -1,6 +1,6 @@
 import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { ExpensesService } from '../../../Services/expenses.service';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CategoryService } from '../../../Services/category.service';
 
 @Component({
@@ -67,7 +67,7 @@ export class CategoriesComponent {
 
   // FORM
   addCategoryForm = new FormGroup({
-    category: new FormControl('')
+    category: new FormControl('', { validators: [ Validators.required ] })
   })
 
   onSubmitAdd() {

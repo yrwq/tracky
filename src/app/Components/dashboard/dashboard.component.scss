@@ -22,26 +22,6 @@
                 }
             }
         }
-
-        button {
-            padding: 10px;
-            outline: none;
-            border: 2px solid #EB3678;
-            background-color: rgba(0,0,0,0);
-            color: #EB3678;
-            border-radius: 30px;
-            font-weight: bold;
-            margin-top: 10px;
-            cursor: pointer;
-    
-            transition: .3s
-        }
-    
-        button:hover {
-            background-color: #EB3678;
-            color: white;
-            padding: 12px;
-        }
     }
 
     #subtitle {
@@ -145,33 +125,5 @@ dialog {
             outline: none;
             color: white;
         }
-        
-        input[type='text'], input[type='number']{
-            background-color: #180161;
-            border: 1px solid #4F1787;
-            border-radius: 5px;
-            color: white;
-            outline: none;
-            margin-bottom: 15px;
-            padding: 5px;
-            width: 100%;
-        }
-
-        input[type='text']:focus, input[type='number']:focus {
-            border: 1px solid #EB3678;
-        }
-
-        button {
-            padding: 7px;
-            outline: none;
-            background-color: rgba(0,0,0,0);
-            border-radius: 30px;
-            font-weight: bold;
-            margin-top: 10px;
-            cursor: pointer;
-    
-            transition: .3s background-color, .3s padding, .3s color;
-        }
     }
-
 }
