@@ -4,6 +4,4 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 
 ## TODO
 
-- Form Validation
 - Landing page (w/stats)
-- Salary implementation to calculate profit for each month
