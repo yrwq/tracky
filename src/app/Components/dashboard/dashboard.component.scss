@@ -1,0 +1,219 @@
+.container {
+    color: white;
+
+    margin-left: 10vw;
+    padding: 40px;
+
+    .title {
+        display: flex;
+        
+        button {
+            padding: 10px;
+            outline: none;
+            border: 2px solid #EB3678;
+            background-color: rgba(0,0,0,0);
+            color: #EB3678;
+            border-radius: 30px;
+            font-weight: bold;
+            margin-top: 10px;
+            cursor: pointer;
+    
+            transition: .3s
+        }
+
+        #moneyspent {
+            margin-top: 25px;
+            color: #a1a1a1;
+            font-size: 23px;
+
+            #price {
+                color: #fff;
+                font-size: 25px;
+            }
+        }
+    
+        button:hover {
+            background-color: #EB3678;
+            color: white;
+            padding: 12px;
+        }
+    }
+
+    #subtitle {
+        color: #cdcdcd;
+    }
+
+    #warning {
+        color: #868686;
+        font-style: italic;
+        font-size: 17px;
+        width: 100%;
+        margin-top: 25px;
+    }
+
+    .expenses {
+        margin-right: 20px;
+        padding: 50px;
+
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+        
+
+        .expense {
+            border: 2px solid #4F1787;
+            padding: 15px;
+            margin: 0 15px 0 15px;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: .3s;
+            width: 250px;
+            margin-top: 25px;
+
+            h2 {
+                font-size: 18px;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+            }
+            #subtitle {
+                font-size: 15px;
+            }
+            #amount {
+                font-size: 20px;
+                font-weight: bold;
+                margin-top: 15px;
+            }
+        }
+
+        .expense:hover {
+            background-color: #4F1787;
+            padding: 17px;
+        }
+    }
+}
+
+dialog {
+    background-color: rgba(0,0,0,.5);
+    color: white;
+    display: flex;
+    border: none;
+    visibility: hidden;
+
+    height: 100vh;
+    width: 100vw;
+    justify-content: center;
+    align-items: center;
+
+    .panel {
+        background-color: #180161;
+        padding: 30px;
+        border-radius: 15px;
+        width: 350px;
+
+        display: flex;
+        flex-direction: column;
+
+        input, label {
+            display: block;
+        }
+
+        
+        #title-container {
+            margin-bottom: 20px;
+            h2 {
+                font-size: 18px;
+                text-align: center;
+            }
+            p {
+                text-align: center;
+                font-size: 15px;
+                color: #c9c9c9;
+            }
+        }
+
+        select {
+            width: 100%;
+            padding: 5px;
+            margin-bottom: 10px;
+            background-color: #180161;
+            border: 1px solid #4F1787;
+            outline: none;
+            color: white;
+        }
+        
+        input[type='text']{
+            background-color: #180161;
+            border: 1px solid #4F1787;
+            border-radius: 5px;
+            color: white;
+            outline: none;
+            margin-bottom: 15px;
+            padding: 5px;
+            width: 100%;
+        }
+
+        input[type='text']:focus {
+            border: 1px solid #EB3678;
+        }
+
+        button {
+            padding: 7px;
+            outline: none;
+            background-color: rgba(0,0,0,0);
+            border-radius: 30px;
+            font-weight: bold;
+            margin-top: 10px;
+            cursor: pointer;
+    
+            transition: .3s background-color, .3s padding, .3s color;
+        }
+        
+        #deleteBtn {
+            border: 2px solid #EB3678;
+            color: #EB3678;
+        }
+        
+        #deleteBtn:hover {
+            background-color: #EB3678;
+            color: white;
+            padding: 8px;
+        }
+
+        #nvmBtn {
+            border: 2px solid #8a8a8a;
+            color: #8a8a8a;
+        }
+        
+        #nvmBtn:hover {
+            background-color: #8a8a8a;
+            color: white;
+            padding: 8px;
+        }
+
+        #addBtn {
+            border: 2px solid #3feb36;
+            color: #3feb36;
+            margin-left: 10px;
+        }
+
+        #addBtn:hover {
+            background-color: #3feb36;
+            color: white;
+            padding: 8px;
+        }
+
+
+        #editBtn {
+            border: 2px solid #FB773C;
+            color: #FB773C;
+            margin-left: 10px;
+        }
+
+        #editBtn:hover {
+            background-color: #FB773C;
+            color: white;
+            padding: 8px;
+        }
+    }
+
+}
