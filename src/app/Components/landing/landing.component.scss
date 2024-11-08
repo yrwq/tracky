@@ -4,90 +4,37 @@
     margin-left: 10vw;
     padding: 40px;
 
-    .title {
-        display: flex;
-        
+    .category-container {
+        margin-top: 50px;
+        border: 2px solid #4F1787;
+        padding: 20px;
+        border-radius: 15px;
+        transition: .3s;
+        width: 300px;
+        margin-top: 25px;
+
         button {
-            padding: 10px;
+            padding: 6px;
             outline: none;
             border: 2px solid #EB3678;
             background-color: rgba(0,0,0,0);
             color: #EB3678;
             border-radius: 30px;
             font-weight: bold;
-            margin-top: 10px;
+            margin-top: 20px;
             cursor: pointer;
     
             transition: .3s
-        }
-
-        #moneyspent {
-            margin-top: 25px;
-            color: #a1a1a1;
-            font-size: 23px;
-
-            #price {
-                color: #fff;
-                font-size: 25px;
-            }
         }
     
         button:hover {
             background-color: #EB3678;
             color: white;
-            padding: 12px;
-        }
-    }
-
-    #subtitle {
-        color: #cdcdcd;
-    }
-
-    #warning {
-        color: #868686;
-        font-style: italic;
-        font-size: 17px;
-        width: 100%;
-        margin-top: 25px;
-    }
-
-    .expenses {
-        margin-right: 20px;
-        padding: 50px;
-
-        display: grid;
-        grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
-        
-
-        .expense {
-            border: 2px solid #4F1787;
-            padding: 15px;
-            margin: 0 15px 0 15px;
-            border-radius: 15px;
-            cursor: pointer;
-            transition: .3s;
-            width: 250px;
-            margin-top: 25px;
-
-            h2 {
-                font-size: 18px;
-                overflow: hidden;
-                text-overflow: ellipsis;
-                white-space: nowrap;
-            }
-            #subtitle {
-                font-size: 15px;
-            }
-            #amount {
-                font-size: 20px;
-                font-weight: bold;
-                margin-top: 15px;
-            }
+            padding: 8px;
         }
 
-        .expense:hover {
-            background-color: #4F1787;
-            padding: 17px;
+        ul {
+            margin-left: 50px;
         }
     }
 }
@@ -166,6 +113,17 @@ dialog {
             cursor: pointer;
     
             transition: .3s background-color, .3s padding, .3s color;
+        }
+        
+        #nvmBtn {
+            border: 2px solid #8a8a8a;
+            color: #8a8a8a;
+        }
+        
+        #nvmBtn:hover {
+            background-color: #8a8a8a;
+            color: white;
+            padding: 8px;
         }
     }
 

@@ -86,6 +86,52 @@ app.get('/expenses/categories', async (req, res) => {
     }
 })
 
+app.post('/expenses/categories/new', async (req, res) => {
+    const {
+        category
+    } = req.body
+    if(!category) return res.status(400).json({ message: "Kategória megadása kötelező!" })
+
+    try {
+        const [result] = await pool.execute('CALL AddCategory(?)', [
+            category,
+        ])
+
+        if(result.affectedRows > 0) {
+            return res.status(201).json({ message: 'Rekord rögzítve.' })
+        } else {
+            console.log(result)
+            return res.status(500).json({ message: 'Sikertelen rögzítés.' })
+        }
+    } catch (err) {
+        console.log(err)
+        res.status(500).json({ message: "Internal server error" })
+    }
+})
+
+app.post('/expenses/categories/delete', async (req, res) => {
+    const {
+        category
+    } = req.body
+    if(!category) return res.status(400).json({ message: "Kategória megadása kötelező!" })
+
+    try {
+        const [result] = await pool.execute('CALL DeleteCategoryByName(?)', [
+            category,
+        ])
+
+        if(result.affectedRows > 0) {
+            return res.status(201).json({ message: 'Rekord törölve.' })
+        } else {
+            console.log(result)
+            return res.status(500).json({ message: 'Sikertelen torlés.' })
+        }
+    } catch (err) {
+        console.log(err)
+        res.status(500).json({ message: "Internal server error" })
+    }
+})
+
 app.post('/expenses/new', async (req, res) => {
     const {
         month,

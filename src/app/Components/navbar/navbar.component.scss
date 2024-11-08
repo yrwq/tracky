@@ -14,6 +14,17 @@ nav {
     ul {
         width: 100%;
         text-align: center;
+
+        #logo {
+            height: 80px;
+            object-fit: contain;
+            cursor: pointer;
+            transition: .3s height;
+        }
+
+        #logo:hover {
+            height: 90px;
+        }
         
         li {
             display: block;

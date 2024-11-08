@@ -1,9 +1,10 @@
 import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { ModalModule } from '@coreui/angular';
 import { ExpensesService } from '../../Services/expenses.service';
-import { DatePipe, DecimalPipe } from '@angular/common';
+import { DecimalPipe } from '@angular/common';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { CategoryService } from '../../Services/category.service';
 
 
 @Component({
@@ -49,6 +50,8 @@ export class DashboardComponent implements OnInit {
   // API
   
   expensesService = inject(ExpensesService);
+  categoryService = inject(CategoryService);
+
   destroyRef = inject(DestroyRef);
   router = inject(Router)
   activatedRoute = inject(ActivatedRoute);
@@ -78,7 +81,7 @@ export class DashboardComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    const subscription = this.expensesService.getCategories().subscribe({
+    const subscription = this.categoryService.getCategories().subscribe({
       next: (res) => {
         this.categories=res
       }

@@ -1,7 +1,5 @@
-import { Component, DestroyRef, inject, OnInit } from '@angular/core';
-import { DatesService } from '../../Services/dates.service';
-import { DatePipe } from '@angular/common';
-import { Router, RouterLink } from '@angular/router';
+import { Component } from '@angular/core';
+import { RouterLink } from '@angular/router';
 
 
 interface DateObject {
@@ -11,7 +9,7 @@ interface DateObject {
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [DatePipe, RouterLink],
+  imports: [RouterLink],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.scss'
 })

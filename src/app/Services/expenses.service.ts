@@ -72,12 +72,4 @@ export class ExpensesService {
       "Error while adding new user"
     )
   }
-
-  getCategories() {
-    return this.fetch(
-      "http://localhost:3000/expenses/categories",
-      "Error fetching categories"
-    )
-  }
-
 }

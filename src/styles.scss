@@ -12,3 +12,52 @@
 body {
     background-color: #180161;
 }
+
+#deleteBtn {
+    border: 2px solid #EB3678;
+    color: #EB3678;
+    margin-left: 10px;
+}
+
+#deleteBtn:hover {
+    background-color: #EB3678;
+    color: white;
+    padding: 8px;
+}
+
+#nvmBtn {
+    border: 2px solid #8a8a8a;
+    color: #8a8a8a;
+}
+
+#nvmBtn:hover {
+    background-color: #8a8a8a;
+    color: white;
+    padding: 8px;
+}
+
+#addBtn {
+    border: 2px solid #3feb36;
+    color: #3feb36;
+    margin-left: 10px;
+}
+
+#addBtn:hover {
+    background-color: #3feb36;
+    color: white;
+    padding: 8px;
+}
+
+
+#editBtn {
+    border: 2px solid #FB773C;
+    color: #FB773C;
+    margin-left: 10px;
+}
+
+#editBtn:hover {
+    background-color: #FB773C;
+    color: white;
+    padding: 8px;
+    margin-left: 10px;
+}
