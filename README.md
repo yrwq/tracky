@@ -5,7 +5,5 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 ## TODO
 
 - Form Validation
-- Dummy Category
-- Category Adding / Deleting
 - Landing page (w/stats)
 - Salary implementation to calculate profit for each month
