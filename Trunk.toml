@@ -1,8 +1,0 @@
-[build]
-target = "index.html"
-dist = "dist"
-
-[[hooks]]
-stage = "build"
-command = "sh"
-command_arguments = ["-c", "bunx tailwindcss -i src/style.css -o src/static/style.css"]
