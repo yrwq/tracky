@@ -1,0 +1,4 @@
+[[hooks]]
+stage = "post_build"
+command = "sh"
+command_arguments = ["-c", "bunx tailwindcss -i ./style.css -o ./dist/.stage/style.css"]
