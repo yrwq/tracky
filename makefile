@@ -1,6 +1,6 @@
 run: lint
 	trunk serve --open
-
+	
 lint:
 	cargo clippy
 

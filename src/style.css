@@ -1,0 +1,25 @@
+@import url("https://pvinis.github.io/iosevka-webfont/3.4.1/iosevka.css");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --foreground: "#d4be98";
+  --background: "#1d2021";
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    --foreground: "#1d2021";
+    --background: "#d4be98";
+  }
+
+}
+
+html {
+  font-family: "Iosevka Web";
+  @apply bg-gruvdark-background text-gruvdark-foreground;
+}
+
+@layer base {}
