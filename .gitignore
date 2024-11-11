@@ -1,5 +1,5 @@
-**/.env
-# Added by cargo
-
 **/target
-dist
+Secrets*.toml
+.shuttle*
+**/.env
+.env

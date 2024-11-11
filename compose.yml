@@ -1,0 +1,37 @@
+services:
+  db:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  # backend:
+  #   container_name: rust-fullstack-backend
+  #   restart: always
+  #   build:
+  #     context: ./backend
+  #   volumes:
+  #     - ./rust-fullstack-backend:/code/app
+  #   env_file:
+  #     - ./.env
+  #   networks:
+  #     - rust-fullstack-network
+  #   command: cargo run
+
+  # frontend:
+  #   container_name: rust-fullstack-frontend
+  #   restart: always
+  #   build:
+  #     context: ./frontend
+  #   volumes:
+  #     - ./rust-fullstack-frontend:/app
+  #     - /app/node_modules/
+  #   networks:
+  #     - rust-fullstack-network
+  #   command: npm run dev -- --host
+
+volumes:
+  pgdata:
